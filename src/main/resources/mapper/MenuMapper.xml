@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsege.mapper.MenuMapper">
+
+    <select id="getRoleHasMenu" parameterType="Long" resultType="Menu">
+        SELECT *
+        FROM menu
+        WHERE m_id IN
+            ( SELECT m_id
+             FROM p_m_relate
+             WHERE p_id IN
+                 ( SELECT p_id
+                  FROM permissions
+                  WHERE p_id IN
+                      ( SELECT p_id
+                       FROM r_p_relate
+                       WHERE r_id = #{roleId} ) ) )
+    </select>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.lsege.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 创建人: 徐众垚

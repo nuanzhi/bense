@@ -1,21 +1,19 @@
 package com.lsege.controller;
 
 import com.lsege.entity.JsonResult;
-import com.lsege.entity.Key;
+import com.lsege.entity.Menu;
+import com.lsege.entity.Role;
 import com.lsege.entity.User;
-import com.lsege.mapper.LoginMapper;
-import com.lsege.util.CreateSecrteKey;
+import com.lsege.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 创建人: 徐众垚
@@ -27,68 +25,60 @@ import java.util.UUID;
 public class LoginController {
 
     @Autowired
-    LoginMapper loginMapper;
+    LoginService loginService;
 
-    private Map<String, String> loginReqKey = new HashMap<>();
-
-    @GetMapping(value = "/loginRequest")
-    public JsonResult loginRequest(){
-
-        JsonResult jsonResult = new JsonResult();
-        Map<String, Object> keyMap = null;
-        try {
-            keyMap = CreateSecrteKey.initKey();
-            String publicKey = CreateSecrteKey.getPublicKey(keyMap);
-            String privateKey = CreateSecrteKey.getPrivateKey(keyMap);
-            jsonResult.setData(new Key(publicKey,"ㄟ(▔,▔)ㄏ"));
-            jsonResult.setSuccess(true);
-            jsonResult.setMessage("获取密钥成功");
-            loginReqKey.put(publicKey,privateKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-            jsonResult.setSuccess(false);
-            jsonResult.setMessage("获取密钥失败");
-        }
-
-        return jsonResult;
-    }
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 登录
-     * @param account 账号
+     *
+     * @param account  账号
      * @param password SHA1密码
      * @return JsonResult
      */
     @PostMapping(value = "/toLogin")
-    public JsonResult toLogin(String account, String password){
+    public JsonResult toLogin(String account, String password) {
         boolean parameter = true;
-        JsonResult<Map<String,Object>> jsonResult = new JsonResult<>();
-        if(StringUtils.isEmpty(account)){
+        JsonResult<Map<String, Object>> jsonResult = new JsonResult<>();
+        if (StringUtils.isEmpty(account)) {
             jsonResult.setSuccess(false);
             jsonResult.setMessage("请输入用户名");
             parameter = false;
         }
-        if(StringUtils.isEmpty(password)){
+        if (StringUtils.isEmpty(password)) {
             jsonResult.setSuccess(false);
             jsonResult.setMessage("请输入密码");
             parameter = false;
         }
-        if(parameter){
-            User user = loginMapper.login(account);
-            if(user==null){
+        if (parameter) {
+            User user = loginService.toLogin(account);
+            if (user == null) {
                 jsonResult.setSuccess(false);
                 jsonResult.setMessage("未找到该用户");
-            }else{
-                if(user.getuPassword().equals(password)){
+            } else {
+                if (user.getuPassword().equals(password)) {
                     jsonResult.setSuccess(true);
                     jsonResult.setMessage("登录成功");
-                    Map<String,Object> map = new HashMap<>();
-                    String token = UUID.randomUUID().toString().replaceAll("-","");
-                    map.put("uName",user.getuName());
-                    map.put("uAccount",user.getuAccount());
+                    /*获取用户角色信息*/
+                    List<Role> roles = loginService.getUserRoles(user.getuId());
+                    /*获取角色菜单列表*/
+                    List<Menu> hasMenu = new ArrayList<>();
+                    for (Role r : roles) {
+                        hasMenu.addAll(loginService.getRoleHasMenu(r.getrId()));
+                    }
+                    Map<String, Object> map = new HashMap<>();
+                    String token = UUID.randomUUID().toString().replaceAll("-", "");
+                    map.put("uName", user.getuName());
+                    map.put("uAccount", user.getuAccount());
                     map.put("token", token);
+                    map.put("hasMenu", hasMenu);
+                    map.put("timestamp", System.currentTimeMillis());
                     jsonResult.setData(map);
-                }else {
+                    /*存入redis缓存*/
+                    ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
+                    operations.set(user.getuAccount() + "_token", map, 5, TimeUnit.MINUTES);
+                } else {
                     jsonResult.setSuccess(false);
                     jsonResult.setMessage("密码错误");
                 }
