@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,22 @@ public class LoginController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @GetMapping(value = "/getRedisToken")
+    public JsonResult getRedisToken(String token) {
+        JsonResult<Map<String, Object>> jsonResult = new JsonResult<>();
+        if (!StringUtils.isEmpty(token)) {
+            /*获取redis缓存*/
+            ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
+            jsonResult.setData(operations.get(token));
+            jsonResult.setMessage("获取成功");
+            jsonResult.setSuccess(true);
+        } else {
+            jsonResult.setMessage("获取失败");
+            jsonResult.setSuccess(false);
+        }
+        return jsonResult;
+    }
 
     /**
      * 登录
@@ -77,7 +94,7 @@ public class LoginController {
                     jsonResult.setData(map);
                     /*存入redis缓存*/
                     ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
-                    operations.set(user.getuAccount() + "_token", map, 5, TimeUnit.MINUTES);
+                    operations.set(token, map, 5, TimeUnit.MINUTES);
                 } else {
                     jsonResult.setSuccess(false);
                     jsonResult.setMessage("密码错误");
