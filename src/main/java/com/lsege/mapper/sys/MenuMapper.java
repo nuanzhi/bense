@@ -1,4 +1,4 @@
-package com.lsege.mapper;
+package com.lsege.mapper.sys;
 
 import com.lsege.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,5 +22,8 @@ public interface MenuMapper {
      * @return
      */
     List<Menu> getRoleHasMenu(Long roleId);
+
+
+    List<Menu> getMenuList();
 
 }

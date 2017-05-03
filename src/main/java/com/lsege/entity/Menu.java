@@ -1,5 +1,8 @@
 package com.lsege.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 创建人: 徐众垚
  * 创建时间: 2017/4/24
@@ -11,6 +14,9 @@ public class Menu {
     private String mName;
     private String mUrl;
     private Long mPId;
+    private String mTag;//标记顶级菜单和二级菜单
+    private List<Menu> subMenu = new ArrayList<>();
+
 
     public Long getmId() {
         return mId;
@@ -42,5 +48,21 @@ public class Menu {
 
     public void setmPId(Long mPId) {
         this.mPId = mPId;
+    }
+
+    public String getmTag() {
+        return mTag;
+    }
+
+    public void setmTag(String mTag) {
+        this.mTag = mTag;
+    }
+
+    public List<Menu> getSubMenu() {
+        return subMenu;
+    }
+
+    public void setSubMenu(List<Menu> subMenu) {
+        this.subMenu = subMenu;
     }
 }

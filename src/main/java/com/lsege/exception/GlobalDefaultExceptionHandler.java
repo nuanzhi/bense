@@ -20,7 +20,7 @@ public class GlobalDefaultExceptionHandler {
     @ResponseBody
     public JsonResult defaultErrorHandler(HttpServletRequest req, Exception e)  {
         JsonResult jsonResult = new JsonResult();
-        jsonResult.setMessage("服务器异常");
+        jsonResult.setMessage(e.toString());
         jsonResult.setSuccess(false);
         return jsonResult;
     }

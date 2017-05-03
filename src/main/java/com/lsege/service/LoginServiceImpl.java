@@ -5,8 +5,8 @@ import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
 import com.lsege.entity.User;
 import com.lsege.mapper.LoginMapper;
-import com.lsege.mapper.MenuMapper;
-import com.lsege.mapper.RoleMapper;
+import com.lsege.mapper.sys.MenuMapper;
+import com.lsege.mapper.sys.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,6 +5,7 @@ import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
 import com.lsege.entity.User;
 import com.lsege.service.LoginService;
+import com.lsege.util.MenuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -84,6 +85,7 @@ public class LoginController {
                     for (Role r : roles) {
                         hasMenu.addAll(loginService.getRoleHasMenu(r.getrId()));
                     }
+                    hasMenu = MenuUtil.beautifyMenu(hasMenu);
                     Map<String, Object> map = new HashMap<>();
                     String token = UUID.randomUUID().toString().replaceAll("-", "");
                     map.put("uName", user.getuName());
@@ -94,7 +96,7 @@ public class LoginController {
                     jsonResult.setData(map);
                     /*存入redis缓存*/
                     ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
-                    operations.set(token, map, 5, TimeUnit.MINUTES);
+                    operations.set(token, map, 30, TimeUnit.MINUTES);
                 } else {
                     jsonResult.setSuccess(false);
                     jsonResult.setMessage("密码错误");

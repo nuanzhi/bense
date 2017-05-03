@@ -1,4 +1,4 @@
-package com.lsege.mapper;
+package com.lsege.mapper.sys;
 
 import com.lsege.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
