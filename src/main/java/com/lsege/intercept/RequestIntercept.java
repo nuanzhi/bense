@@ -16,9 +16,9 @@ public class RequestIntercept implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         /*跨域设置*/
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        /*httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("Access-Control-Allow-Origin-Methods", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Origin-Methods", "*");*/
         return true;
     }
 

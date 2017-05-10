@@ -17,6 +17,18 @@
     </select>
     <select id="getMenuList" resultType="Menu">
         SELECT *
-        FROM menu
+        FROM menu order by m_p_id
     </select>
+    <select id="getTopMenuList" resultType="Menu">
+        SELECT *
+        FROM menu where m_p_id is null order by m_p_id
+    </select>
+
+    <select id="getMenuChildById" parameterType="Long" resultType="Menu">
+        SELECT *
+        FROM menu where m_id = #{mId} or m_p_id = #{mId} order by m_p_id
+    </select>
+
+
+
 </mapper>

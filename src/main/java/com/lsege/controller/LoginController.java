@@ -6,6 +6,7 @@ import com.lsege.entity.Role;
 import com.lsege.entity.User;
 import com.lsege.service.LoginService;
 import com.lsege.util.MenuUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -55,7 +56,8 @@ public class LoginController {
      * @param password SHA1密码
      * @return JsonResult
      */
-    @PostMapping(value = "/toLogin")
+    @ApiOperation(value="快销平台登录", notes="")
+    @GetMapping(value = "/toLogin")
     public JsonResult toLogin(String account, String password) {
         boolean parameter = true;
         JsonResult<Map<String, Object>> jsonResult = new JsonResult<>();
@@ -91,12 +93,12 @@ public class LoginController {
                     map.put("uName", user.getuName());
                     map.put("uAccount", user.getuAccount());
                     map.put("token", token);
-                    map.put("hasMenu", hasMenu);
                     map.put("timestamp", System.currentTimeMillis());
+                    map.put("hasMenu", hasMenu);
                     jsonResult.setData(map);
                     /*存入redis缓存*/
                     ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
-                    operations.set(token, map, 30, TimeUnit.MINUTES);
+                    operations.set(token, map, 1, TimeUnit.HOURS);
                 } else {
                     jsonResult.setSuccess(false);
                     jsonResult.setMessage("密码错误");

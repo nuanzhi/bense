@@ -14,4 +14,7 @@ public interface MenuService {
 
     List<Menu> getMenuList();
 
+    List<Menu> getTopMenuList();
+
+    List<Menu> getMenuChildById(Long mId);
 }

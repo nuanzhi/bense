@@ -26,4 +26,8 @@ public interface MenuMapper {
 
     List<Menu> getMenuList();
 
+    List<Menu> getTopMenuList();
+
+    List<Menu> getMenuChildById(Long mId);
+
 }

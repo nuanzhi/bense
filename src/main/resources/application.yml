@@ -9,9 +9,9 @@ spring:
     username: root
     password: 123456
   redis:
-    host: 47.92.83.103
+    host: 121.40.118.8
     port: 6379
-    password: 123456
+    password: ZXCasd123
   session:
     store-type: none
 mybatis:
