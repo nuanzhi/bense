@@ -2,6 +2,7 @@ package com.lsege.controller.sys;
 
 import com.lsege.entity.JsonResult;
 import com.lsege.entity.Menu;
+import com.lsege.mapper.sys.MenuMapper;
 import com.lsege.service.sys.MenuService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,22 @@ public class MenuController {
             json.setSuccess(true);
             json.setMessage("获取成功");
         }
+        return json;
+    }
+
+    @GetMapping(value = "/addMenu")
+    public JsonResult addMenu(String mName,String mUrl,Long mPId){
+        JsonResult json = new JsonResult();
+        Menu menu = new Menu(mName,mUrl,mPId,null);
+        if(mPId==1){
+            menu.setmTag("top");
+        }else{
+            menu.setmTag("secondary");
+        }
+        menuService.addMenu(menu);
+        json.setData(menu);
+        json.setSuccess(true);
+        json.setMessage("添加菜单成功");
         return json;
     }
 

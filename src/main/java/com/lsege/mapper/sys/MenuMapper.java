@@ -2,6 +2,7 @@ package com.lsege.mapper.sys;
 
 import com.lsege.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,4 +31,5 @@ public interface MenuMapper {
 
     List<Menu> getMenuChildById(Long mId);
 
+    Long addMenu(Menu menu);
 }

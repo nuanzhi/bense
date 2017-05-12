@@ -4,6 +4,7 @@ import com.lsege.entity.Menu;
 import com.lsege.mapper.sys.MenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,5 +33,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Menu> getMenuChildById(Long mId) {
         return menuMapper.getMenuChildById(mId);
+    }
+
+    @Override
+    public Long addMenu(Menu menu) {
+        return menuMapper.addMenu(menu);
     }
 }

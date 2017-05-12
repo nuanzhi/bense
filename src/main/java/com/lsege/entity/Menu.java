@@ -17,6 +17,15 @@ public class Menu {
     private String mTag;//标记顶级菜单和二级菜单
     private List<Menu> subMenu = new ArrayList<>();
 
+    public Menu() {
+    }
+
+    public Menu(String mName, String mUrl, Long mPId, String mTag) {
+        this.mName = mName;
+        this.mUrl = mUrl;
+        this.mPId = mPId;
+        this.mTag = mTag;
+    }
 
     public Long getmId() {
         return mId;

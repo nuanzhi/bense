@@ -5,9 +5,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/bense
-    username: root
-    password: 123456
+    url: jdbc:mysql://rds65965s8a72dg48328o.mysql.rds.aliyuncs.com:3306/bense
+    username: bense
+    password: ZXCasd123
   redis:
     host: 121.40.118.8
     port: 6379

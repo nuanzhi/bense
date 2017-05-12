@@ -21,14 +21,18 @@
     </select>
     <select id="getTopMenuList" resultType="Menu">
         SELECT *
-        FROM menu where m_p_id is null order by m_p_id
+        FROM menu where m_p_id = 1 or m_id = 1 order by m_p_id
     </select>
 
     <select id="getMenuChildById" parameterType="Long" resultType="Menu">
         SELECT *
-        FROM menu where m_id = #{mId} or m_p_id = #{mId} order by m_p_id
+        FROM menu where (m_id = #{mId} or m_p_id = #{mId}) and m_id != 1
+        order by m_p_id
     </select>
 
+    <insert id="addMenu" parameterType="Menu" keyProperty="mId">
+        insert into menu (m_name,m_url,m_p_id,m_tag) values (#{mName},#{mUrl},#{mPId},#{mTag})
+    </insert>
 
 
 </mapper>
