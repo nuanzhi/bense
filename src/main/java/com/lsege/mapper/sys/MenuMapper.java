@@ -29,7 +29,15 @@ public interface MenuMapper {
 
     List<Menu> getTopMenuList();
 
+    List<Menu> getTopMenuListNotRoot();
+
     List<Menu> getMenuChildById(Long mId);
 
+    List<Menu> getMenuChildByIdNotSelf(Long mId);
+
     Long addMenu(Menu menu);
+
+    Long removeMenu(Long mId);
+
+    Long editMenu(Menu menu);
 }

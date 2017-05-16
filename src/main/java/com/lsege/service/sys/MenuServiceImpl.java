@@ -31,12 +31,32 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public List<Menu> getTopMenuListNotRoot() {
+        return menuMapper.getTopMenuListNotRoot();
+    }
+
+    @Override
     public List<Menu> getMenuChildById(Long mId) {
         return menuMapper.getMenuChildById(mId);
     }
 
     @Override
+    public List<Menu> getMenuChildByIdNotSelf(Long mId) {
+        return menuMapper.getMenuChildByIdNotSelf(mId);
+    }
+
+    @Override
     public Long addMenu(Menu menu) {
         return menuMapper.addMenu(menu);
+    }
+
+    @Override
+    public Long removeMenu(Long mId) {
+        return menuMapper.removeMenu(mId);
+    }
+
+    @Override
+    public Long editMenu(Menu menu) {
+        return menuMapper.editMenu(menu);
     }
 }

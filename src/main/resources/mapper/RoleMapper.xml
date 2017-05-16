@@ -11,4 +11,43 @@
              where u_id = #{uId} )
     </select>
 
+    <select id="getRoleList" resultType="Role">
+        select * from role
+    </select>
+
+    <insert id="addRole" parameterType="Role" keyProperty="rId">
+        insert into role (r_name) values (#{rName})
+    </insert>
+
+    <delete id="removeRole" parameterType="Long">
+        DELETE from role where r_id = #{rId}
+    </delete>
+
+    <select id="getUserByRoleId" parameterType="Long" resultType="Long">
+        select count(u.u_id) from (select * from u_r_relate where r_id = #{rId}) urr
+        left join user u
+        on urr.u_id = u.u_id
+    </select>
+
+    <update id="editRole" parameterType="Role">
+        update role set r_name = #{rName} where r_id = #{rId}
+    </update>
+
+    <select id="associatedMenu" parameterType="Long" resultType="Menu">
+        SELECT m.*,tif(tmp.m_id is null,0,1) is_has
+        FROM menu m
+        left join (
+        SELECT m_id
+             FROM p_m_relate
+             WHERE p_id IN
+                 ( SELECT p_id
+                  FROM permissions
+                  WHERE p_id IN
+                      ( SELECT p_id
+                       FROM r_p_relate
+                       WHERE r_id = #{rId} ) )
+        ) tmp on tmp.m_id = m.m_id
+        where m.m_id != 1 order by m_show_id
+    </select>
+
 </mapper>

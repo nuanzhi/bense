@@ -1,7 +1,6 @@
 package com.lsege.util;
 
 import com.lsege.entity.Menu;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class MenuUtil {
         List<Menu> hasMenu = new ArrayList<>();
 
         for (Menu m : menus) {
-            if (StringUtils.isEmpty(m.getmPId())) {
+            if (m.getmPId() == 1) {
                 hasMenu.add(m);
             }
         }

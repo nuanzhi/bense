@@ -1,6 +1,8 @@
 package com.lsege.mapper.sys;
 
+import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
+import com.lsege.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +25,15 @@ public interface RoleMapper {
      */
     List<Role> getUserRoles(Long uId);
 
+    List<Role> getRoleList();
+
+    Long addRole(Role role);
+
+    Long removeRole(Long rId);
+
+    Long editRole(Role role);
+
+    Long getUserByRoleId(Long rId);
+
+    List<Menu> associatedMenu(Long rId);
 }

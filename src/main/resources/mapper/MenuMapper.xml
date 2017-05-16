@@ -17,22 +17,45 @@
     </select>
     <select id="getMenuList" resultType="Menu">
         SELECT *
-        FROM menu order by m_p_id
+        FROM menu order by m_show_id
     </select>
     <select id="getTopMenuList" resultType="Menu">
         SELECT *
-        FROM menu where m_p_id = 1 or m_id = 1 order by m_p_id
+        FROM menu where m_p_id = 1 or m_id = 1 order by m_show_id
+    </select>
+
+    <select id="getTopMenuListNotRoot" resultType="Menu">
+        SELECT *
+        FROM menu where m_p_id = 1 order by m_show_id
     </select>
 
     <select id="getMenuChildById" parameterType="Long" resultType="Menu">
         SELECT *
-        FROM menu where (m_id = #{mId} or m_p_id = #{mId}) and m_id != 1
-        order by m_p_id
+        FROM menu where m_p_id = #{mId} and m_id != 1
+        order by m_show_id
+    </select>
+
+    <select id="getMenuChildByIdNotSelf" parameterType="Long" resultType="Menu">
+        SELECT *
+        FROM menu where  m_p_id = #{mId} and m_id != 1
+        order by m_show_id
     </select>
 
     <insert id="addMenu" parameterType="Menu" keyProperty="mId">
-        insert into menu (m_name,m_url,m_p_id,m_tag) values (#{mName},#{mUrl},#{mPId},#{mTag})
+        insert into menu (m_name,m_url,m_p_id,m_tag,m_show_id) values (#{mName},#{mUrl},#{mPId},#{mTag},#{mShowId})
     </insert>
+
+    <delete id="removeMenu" parameterType="Long">
+        delete from menu where m_id = #{mId}
+    </delete>
+
+    <update id="editMenu" parameterType="Menu">
+        update menu SET m_name = #{mName},
+        m_url = #{mUrl},
+        m_p_id = #{mPId},
+        m_tag = #{mTag},
+        m_show_id = #{mShowId} where m_id = #{mId}
+    </update>
 
 
 </mapper>

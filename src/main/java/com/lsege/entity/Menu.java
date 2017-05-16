@@ -15,16 +15,19 @@ public class Menu {
     private String mUrl;
     private Long mPId;
     private String mTag;//标记顶级菜单和二级菜单
+    private Long mShowId;
+    private int isHas;
     private List<Menu> subMenu = new ArrayList<>();
 
     public Menu() {
     }
 
-    public Menu(String mName, String mUrl, Long mPId, String mTag) {
+    public Menu(String mName, String mUrl, Long mPId, String mTag,Long mShowId) {
         this.mName = mName;
         this.mUrl = mUrl;
         this.mPId = mPId;
         this.mTag = mTag;
+        this.mShowId = mShowId;
     }
 
     public Long getmId() {
@@ -65,6 +68,22 @@ public class Menu {
 
     public void setmTag(String mTag) {
         this.mTag = mTag;
+    }
+
+    public Long getmShowId() {
+        return mShowId;
+    }
+
+    public void setmShowId(Long mShowId) {
+        this.mShowId = mShowId;
+    }
+
+    public int getIsHas() {
+        return isHas;
+    }
+
+    public void setIsHas(int isHas) {
+        this.isHas = isHas;
     }
 
     public List<Menu> getSubMenu() {
