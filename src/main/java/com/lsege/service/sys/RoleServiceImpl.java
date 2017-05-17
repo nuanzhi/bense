@@ -3,9 +3,11 @@ package com.lsege.service.sys;
 import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
 import com.lsege.entity.User;
+import com.lsege.entity.vo.RMRelate;
 import com.lsege.mapper.sys.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,6 +49,13 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public List<Menu> associatedMenu(Long rId) {
         return roleMapper.associatedMenu(rId);
+    }
+
+    @Override
+    @Transactional
+    public void associatedMenuUpdate(Long rId,List<RMRelate> data){
+        roleMapper.associatedMenuDel(rId);
+        roleMapper.associatedMenuSave(data);
     }
 
 

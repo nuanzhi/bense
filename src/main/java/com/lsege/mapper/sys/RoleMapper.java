@@ -3,6 +3,7 @@ package com.lsege.mapper.sys;
 import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
 import com.lsege.entity.User;
+import com.lsege.entity.vo.RMRelate;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -36,4 +37,8 @@ public interface RoleMapper {
     Long getUserByRoleId(Long rId);
 
     List<Menu> associatedMenu(Long rId);
+
+    Long associatedMenuDel(Long rId);
+
+    Long associatedMenuSave(List<RMRelate> data);
 }

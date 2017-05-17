@@ -34,20 +34,22 @@
     </update>
 
     <select id="associatedMenu" parameterType="Long" resultType="Menu">
-        SELECT m.*,tif(tmp.m_id is null,0,1) is_has
+        SELECT m.*,if(tmp.m_id is null,0,1) is_has
         FROM menu m
         left join (
         SELECT m_id
-             FROM p_m_relate
-             WHERE p_id IN
-                 ( SELECT p_id
-                  FROM permissions
-                  WHERE p_id IN
-                      ( SELECT p_id
-                       FROM r_p_relate
-                       WHERE r_id = #{rId} ) )
+             FROM r_m_relate
+             WHERE r_id = #{rId}
         ) tmp on tmp.m_id = m.m_id
         where m.m_id != 1 order by m_show_id
     </select>
+
+    <delete id="associatedMenuDel" parameterType="Long">
+        DELETE from r_m_relate where r_id = #{rId}
+    </delete>
+
+    <insert id="associatedMenuSave" parameterType="List">
+        INSERT INTO r_m_relate (r_id, m_id) VALUES (6, 159);
+    </insert>
 
 </mapper>

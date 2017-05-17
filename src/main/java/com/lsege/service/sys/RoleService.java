@@ -3,6 +3,7 @@ package com.lsege.service.sys;
 import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
 import com.lsege.entity.User;
+import com.lsege.entity.vo.RMRelate;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface RoleService {
     Long getUserByRoleId(Long rId);
 
     List<Menu> associatedMenu(Long rId);
+
+    void associatedMenuUpdate(Long rId, List<RMRelate> data);
 }

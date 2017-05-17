@@ -16,15 +16,12 @@ public class MenuUtil {
 
 
     public static List<Menu> beautifyMenu(List<Menu> menus) {
-
         List<Menu> hasMenu = new ArrayList<>();
-
         for (Menu m : menus) {
             if (m.getmPId() == 1) {
                 hasMenu.add(m);
             }
         }
-
         for (Menu mm : hasMenu) {
             for (Menu m : menus) {
                 if(Objects.equals(mm.getmId(), m.getmPId())){
@@ -32,8 +29,17 @@ public class MenuUtil {
                 }
             }
         }
-
         return hasMenu;
+    }
+
+    public static List<Long> getHasMenu(List<Menu> menus){
+        List<Long> objects = new ArrayList<>();
+        for (int i = 0; i < menus.size(); i++) {
+            if(menus.get(i).getIsHas()==1){
+                objects.add(menus.get(i).getmId());
+            }
+        }
+        return objects;
     }
 
 }

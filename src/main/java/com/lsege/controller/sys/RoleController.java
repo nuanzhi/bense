@@ -1,17 +1,24 @@
 package com.lsege.controller.sys;
 
+import com.google.gson.reflect.TypeToken;
 import com.lsege.entity.JsonResult;
 import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
 import com.lsege.entity.User;
+import com.lsege.entity.vo.RMRelate;
 import com.lsege.service.sys.RoleService;
+import com.lsege.util.GsonUtil;
+import com.lsege.util.MenuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xuzhongyao on 2017/5/13.
@@ -91,8 +98,32 @@ public class RoleController {
             json.setMessage("缺少参数");
             json.setSuccess(false);
         }else{
-           List<Menu> menus = roleService.associatedMenu(rId);
+            List<Menu> hasMenu = roleService.associatedMenu(rId);
+            List<Long> hasMenuMId = MenuUtil.getHasMenu(hasMenu);
+            hasMenu = MenuUtil.beautifyMenu(hasMenu);
+            Map<String,Object> map = new HashMap<>();
+            map.put("menus",hasMenu);
+            map.put("menusMId",hasMenuMId);
+            json.setData(map);
+            json.setMessage("查询成功");
+            json.setSuccess(true);
         }
+        return json;
+    }
+
+    @GetMapping(value = "/associatedMenuUpdate")
+    public JsonResult associatedMenuUpdate(Long rId,String str){
+        JsonResult json = new JsonResult();
+        if(StringUtils.isEmpty(str) || StringUtils.isEmpty(rId)){
+            json.setMessage("缺少参数");
+            json.setSuccess(false);
+        }else{
+            List<RMRelate> menuIds = GsonUtil.getIstance().fromJson(str,new TypeToken<List<RMRelate>>(){}.getType());
+            roleService.associatedMenuUpdate(rId,menuIds);
+
+        }
+
+
         return json;
     }
 

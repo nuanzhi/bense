@@ -6,14 +6,8 @@
         FROM menu
         WHERE m_id IN
             ( SELECT m_id
-             FROM p_m_relate
-             WHERE p_id IN
-                 ( SELECT p_id
-                  FROM permissions
-                  WHERE p_id IN
-                      ( SELECT p_id
-                       FROM r_p_relate
-                       WHERE r_id = #{roleId} ) ) )
+             FROM r_m_relate
+             WHERE r_id = #{roleId} )
     </select>
     <select id="getMenuList" resultType="Menu">
         SELECT *

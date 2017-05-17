@@ -16,7 +16,7 @@ public class Menu {
     private Long mPId;
     private String mTag;//标记顶级菜单和二级菜单
     private Long mShowId;
-    private int isHas;
+    private Long isHas;
     private List<Menu> subMenu = new ArrayList<>();
 
     public Menu() {
@@ -78,11 +78,11 @@ public class Menu {
         this.mShowId = mShowId;
     }
 
-    public int getIsHas() {
+    public Long getIsHas() {
         return isHas;
     }
 
-    public void setIsHas(int isHas) {
+    public void setIsHas(Long isHas) {
         this.isHas = isHas;
     }
 
