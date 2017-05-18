@@ -95,10 +95,11 @@ public class LoginController {
                     map.put("token", token);
                     map.put("timestamp", System.currentTimeMillis());
                     map.put("hasMenu", hasMenu);
+                    map.put("expires", "20m");
                     jsonResult.setData(map);
                     /*存入redis缓存*/
                     ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
-                    operations.set(token, map, 1, TimeUnit.HOURS);
+                    operations.set(token, map, 20, TimeUnit.MINUTES);
                 } else {
                     jsonResult.setSuccess(false);
                     jsonResult.setMessage("密码错误");
