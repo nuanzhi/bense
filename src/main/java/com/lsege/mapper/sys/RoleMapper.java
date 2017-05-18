@@ -41,4 +41,6 @@ public interface RoleMapper {
     Long associatedMenuDel(Long rId);
 
     Long associatedMenuSave(List<RMRelate> data);
+
+    List<Menu> getMenuByRId(Long rId);
 }

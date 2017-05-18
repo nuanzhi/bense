@@ -80,9 +80,16 @@ public class RoleController {
         }else{
             Long userCount = roleService.getUserByRoleId(rId);
             if(userCount==0){
-                roleService.removeRole(rId);
-                json.setSuccess(true);
-                json.setMessage("删除成功");
+                List<Menu> menus = roleService.getMenuByRId(rId);
+                if(menus.size()==0){
+                    roleService.removeRole(rId);
+                    json.setSuccess(true);
+                    json.setMessage("删除成功");
+                }else{
+                    json.setSuccess(false);
+                    json.setMessage("请先与菜单解除关联");
+                }
+
             }else{
                 json.setSuccess(false);
                 json.setMessage("已有\n"+userCount+"\n位用户使用该角色，无法删除");
@@ -120,9 +127,9 @@ public class RoleController {
         }else{
             List<RMRelate> menuIds = GsonUtil.getIstance().fromJson(str,new TypeToken<List<RMRelate>>(){}.getType());
             roleService.associatedMenuUpdate(rId,menuIds);
-
+            json.setMessage("关联成功");
+            json.setSuccess(true);
         }
-
 
         return json;
     }

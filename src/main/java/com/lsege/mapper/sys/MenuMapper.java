@@ -1,6 +1,7 @@
 package com.lsege.mapper.sys;
 
 import com.lsege.entity.Menu;
+import com.lsege.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -40,4 +41,6 @@ public interface MenuMapper {
     Long removeMenu(Long mId);
 
     Long editMenu(Menu menu);
+
+    List<Role> getRoleByMid(Long mId);
 }

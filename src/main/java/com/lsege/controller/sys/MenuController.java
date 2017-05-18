@@ -2,6 +2,7 @@ package com.lsege.controller.sys;
 
 import com.lsege.entity.JsonResult;
 import com.lsege.entity.Menu;
+import com.lsege.entity.Role;
 import com.lsege.mapper.sys.MenuMapper;
 import com.lsege.service.sys.MenuService;
 import io.swagger.annotations.ApiOperation;
@@ -111,11 +112,17 @@ public class MenuController {
         }else{
             List<Menu> menus = menuService.getMenuChildByIdNotSelf(mId);
             if(menus.size()==0){
-                menuService.removeMenu(mId);
-                List<Menu> topMenuList = menuService.getTopMenuList();
-                json.setData(topMenuList);
-                json.setMessage("删除成功");
-                json.setSuccess(true);
+                List<Role> roles = menuService.getRoleByMid(mId);
+                if(roles.size()==0){
+                    menuService.removeMenu(mId);
+                    List<Menu> topMenuList = menuService.getTopMenuList();
+                    json.setData(topMenuList);
+                    json.setMessage("删除成功");
+                    json.setSuccess(true);
+                }else{
+                    json.setMessage("请先与角色解除关联");
+                    json.setSuccess(false);
+                }
             } else{
                 json.setMessage("请先删除子节点");
                 json.setSuccess(false);

@@ -1,6 +1,7 @@
 package com.lsege.service.sys;
 
 import com.lsege.entity.Menu;
+import com.lsege.entity.Role;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface MenuService {
     Long removeMenu(Long mId);
 
     Long editMenu(Menu menu);
+
+    List<Role> getRoleByMid(Long mId);
 }

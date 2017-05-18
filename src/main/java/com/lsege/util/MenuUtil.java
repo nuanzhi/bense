@@ -16,6 +16,8 @@ public class MenuUtil {
 
 
     public static List<Menu> beautifyMenu(List<Menu> menus) {
+        /*去除因多角色导致的菜单重复*/
+        menus = removeDuplicate(menus);
         List<Menu> hasMenu = new ArrayList<>();
         for (Menu m : menus) {
             if (m.getmPId() == 1) {
@@ -30,6 +32,19 @@ public class MenuUtil {
             }
         }
         return hasMenu;
+    }
+
+    public static List<Menu> removeDuplicate(List<Menu> list) {
+
+        List<Long> mIds = new ArrayList<>();
+        List<Menu> tmpList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if(!mIds.contains(list.get(i).getmId())){
+                tmpList.add(list.get(i));
+                mIds.add(list.get(i).getmId());
+            }
+        }
+        return tmpList;
     }
 
     public static List<Long> getHasMenu(List<Menu> menus){

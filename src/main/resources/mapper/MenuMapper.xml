@@ -2,12 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lsege.mapper.sys.MenuMapper">
     <select id="getRoleHasMenu" parameterType="Long" resultType="Menu">
-        SELECT *
-        FROM menu
-        WHERE m_id IN
-            ( SELECT m_id
-             FROM r_m_relate
-             WHERE r_id = #{roleId} )
+       select * from (
+         -- 查询所有有权限的顶级菜单
+         SELECT *
+                    FROM menu
+                    WHERE m_id IN
+                        ( SELECT m_id
+                         FROM r_m_relate
+                         WHERE r_id = #{roleId} ) and m_p_id = 1
+            union all
+          -- 查询所有有权限的二级菜单的上级菜单
+         select * from menu where m_id in (
+            SELECT m_p_id
+                    FROM menu
+                    WHERE m_id IN
+                        ( SELECT m_id
+                         FROM r_m_relate
+                         WHERE r_id = #{roleId} ) and m_p_id != 1
+            )
+            union all
+            -- 查询所有有权限的二级菜单
+            SELECT *
+                    FROM menu
+                    WHERE m_id IN
+                        ( SELECT m_id
+                         FROM r_m_relate
+                         WHERE r_id = #{roleId} ) and m_p_id != 1
+        ) A where 1=1 order by m_show_id,m_id
     </select>
     <select id="getMenuList" resultType="Menu">
         SELECT *
@@ -51,5 +72,9 @@
         m_show_id = #{mShowId} where m_id = #{mId}
     </update>
 
+    <select id="getRoleByMid" parameterType="Long" resultType="Role">
+        select r.* from (select * from r_m_relate where m_id = #{mId}) tmp
+             left join role r on tmp.r_id = r.r_id
+    </select>
 
 </mapper>

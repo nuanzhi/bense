@@ -49,7 +49,16 @@
     </delete>
 
     <insert id="associatedMenuSave" parameterType="List">
-        INSERT INTO r_m_relate (r_id, m_id) VALUES (6, 159);
+        INSERT INTO r_m_relate (r_id, m_id) VALUES
+        <foreach collection="list" index="index" item="item"
+                 separator=",">
+            (#{item.rId}, #{item.mId})
+        </foreach>
     </insert>
+
+    <select id="getMenuByRId" parameterType="Long" resultType="Menu">
+        select m.* from (select * from r_m_relate where r_id = #{rId}) tmp
+             left join menu m on tmp.m_id = m.m_id
+    </select>
 
 </mapper>

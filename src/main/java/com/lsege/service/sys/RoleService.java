@@ -25,4 +25,6 @@ public interface RoleService {
     List<Menu> associatedMenu(Long rId);
 
     void associatedMenuUpdate(Long rId, List<RMRelate> data);
+
+    List<Menu> getMenuByRId(Long rId);
 }

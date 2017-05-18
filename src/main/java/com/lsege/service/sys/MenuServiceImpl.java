@@ -1,6 +1,7 @@
 package com.lsege.service.sys;
 
 import com.lsege.entity.Menu;
+import com.lsege.entity.Role;
 import com.lsege.mapper.sys.MenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Long editMenu(Menu menu) {
         return menuMapper.editMenu(menu);
+    }
+
+    @Override
+    public List<Role> getRoleByMid(Long mId) {
+        return menuMapper.getRoleByMid(mId);
     }
 }

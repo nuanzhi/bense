@@ -55,7 +55,14 @@ public class RoleServiceImpl implements RoleService{
     @Transactional
     public void associatedMenuUpdate(Long rId,List<RMRelate> data){
         roleMapper.associatedMenuDel(rId);
-        roleMapper.associatedMenuSave(data);
+        if (data.size()!=0) {
+            roleMapper.associatedMenuSave(data);
+        }
+    }
+
+    @Override
+    public List<Menu> getMenuByRId(Long rId) {
+        return roleMapper.getMenuByRId(rId);
     }
 
 
