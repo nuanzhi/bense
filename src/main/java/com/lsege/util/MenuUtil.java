@@ -49,9 +49,15 @@ public class MenuUtil {
 
     public static List<Long> getHasMenu(List<Menu> menus){
         List<Long> objects = new ArrayList<>();
+
         for (int i = 0; i < menus.size(); i++) {
-            if(menus.get(i).getIsHas()==1){
+            if(menus.get(i).getIsHas()==1 && menus.get(i).getSubMenu().size()==0){
                 objects.add(menus.get(i).getmId());
+            }
+            for (int j = 0; j < menus.get(i).getSubMenu().size(); j++) {
+                if(menus.get(i).getSubMenu().get(j).getIsHas()==1){
+                    objects.add(menus.get(i).getSubMenu().get(j).getmId());
+                }
             }
         }
         return objects;

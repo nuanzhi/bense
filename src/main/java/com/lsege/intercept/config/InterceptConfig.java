@@ -1,5 +1,7 @@
-package com.lsege.intercept;
+package com.lsege.intercept.config;
 
+import com.lsege.intercept.DomainIntercept;
+import com.lsege.intercept.RequestIntercept;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,10 +17,16 @@ public class InterceptConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 多个拦截器组成一个拦截器链
-        // addPathPatterns 用于添加拦截规则
-        // excludePathPatterns 用户排除拦截
-        registry.addInterceptor(new RequestIntercept()).addPathPatterns("/**");
+
+        /*配置跨域拦截器*/
+        registry.addInterceptor(new DomainIntercept())
+                .addPathPatterns("/**");
+
+        /*安全认证拦截器*/
+        registry.addInterceptor(new RequestIntercept())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/toLogin");
+
         super.addInterceptors(registry);
     }
 

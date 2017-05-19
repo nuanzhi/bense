@@ -13,6 +13,7 @@ public class Menu {
     private Long mId;
     private String mName;
     private String mUrl;
+    private String mInterceptUrl;
     private Long mPId;
     private String mTag;//标记顶级菜单和二级菜单
     private Long mShowId;
@@ -52,6 +53,14 @@ public class Menu {
 
     public void setmUrl(String mUrl) {
         this.mUrl = mUrl;
+    }
+
+    public String getmInterceptUrl() {
+        return mInterceptUrl;
+    }
+
+    public void setmInterceptUrl(String mInterceptUrl) {
+        this.mInterceptUrl = mInterceptUrl;
     }
 
     public Long getmPId() {

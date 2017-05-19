@@ -12,6 +12,7 @@ import com.lsege.util.MenuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,7 @@ public class RoleController {
         return json;
     }
 
-    @GetMapping(value = "/addRole")
+    @PostMapping(value = "/addRole")
     public JsonResult addRole(Role role){
         JsonResult json = new JsonResult();
         if(StringUtils.isEmpty(role.getrName())){
@@ -56,7 +57,7 @@ public class RoleController {
         return json;
     }
 
-    @GetMapping(value = "/editRole")
+    @PostMapping(value = "/editRole")
     public JsonResult editRole(Role role){
         JsonResult json = new JsonResult();
         if(StringUtils.isEmpty(role.getrId())){
@@ -71,7 +72,7 @@ public class RoleController {
         return json;
     }
 
-    @GetMapping(value = "/removeRole")
+    @PostMapping(value = "/removeRole")
     public JsonResult removeRole(Long rId){
         JsonResult json = new JsonResult();
         if(StringUtils.isEmpty(rId)){
@@ -106,8 +107,8 @@ public class RoleController {
             json.setSuccess(false);
         }else{
             List<Menu> hasMenu = roleService.associatedMenu(rId);
-            List<Long> hasMenuMId = MenuUtil.getHasMenu(hasMenu);
             hasMenu = MenuUtil.beautifyMenu(hasMenu);
+            List<Long> hasMenuMId = MenuUtil.getHasMenu(hasMenu);
             Map<String,Object> map = new HashMap<>();
             map.put("menus",hasMenu);
             map.put("menusMId",hasMenuMId);
@@ -118,7 +119,7 @@ public class RoleController {
         return json;
     }
 
-    @GetMapping(value = "/associatedMenuUpdate")
+    @PostMapping(value = "/associatedMenuUpdate")
     public JsonResult associatedMenuUpdate(Long rId,String str){
         JsonResult json = new JsonResult();
         if(StringUtils.isEmpty(str) || StringUtils.isEmpty(rId)){

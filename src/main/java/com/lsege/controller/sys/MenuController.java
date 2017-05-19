@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.spring.web.json.Json;
@@ -29,7 +30,6 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @ApiOperation(value="获取菜单列表", notes="")
     @GetMapping(value = "/getMenuList")
     public JsonResult getMenuList() {
         JsonResult json = new JsonResult();
@@ -65,7 +65,7 @@ public class MenuController {
         return json;
     }
 
-    @GetMapping(value = "/addMenu")
+    @PostMapping(value = "/addMenu")
     public JsonResult addMenu(String mName,String mUrl,Long mPId,Long mShowId){
         JsonResult json = new JsonResult();
         Menu menu = new Menu(mName,mUrl,mPId,null,mShowId);
@@ -81,7 +81,7 @@ public class MenuController {
         return json;
     }
 
-    @GetMapping("/editMenu")
+    @PostMapping("/editMenu")
     public JsonResult editMenu(Menu menu){
         JsonResult json = new JsonResult();
         if(StringUtils.isEmpty(menu.getmId())){
@@ -103,7 +103,7 @@ public class MenuController {
         return json;
     }
 
-    @GetMapping("/removeMenu")
+    @PostMapping("/removeMenu")
     public JsonResult removeMenu(Long mId){
         JsonResult json = new JsonResult();
         if(StringUtils.isEmpty(mId)){

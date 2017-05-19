@@ -43,7 +43,7 @@ public class LoginController {
             jsonResult.setMessage("获取成功");
             jsonResult.setSuccess(true);
         } else {
-            jsonResult.setMessage("获取失败");
+            jsonResult.setMessage("缺少参数");
             jsonResult.setSuccess(false);
         }
         return jsonResult;
@@ -56,8 +56,7 @@ public class LoginController {
      * @param password SHA1密码
      * @return JsonResult
      */
-    @ApiOperation(value="快销平台登录", notes="")
-    @GetMapping(value = "/toLogin")
+    @PostMapping(value = "/toLogin")
     public JsonResult toLogin(String account, String password) {
         boolean parameter = true;
         JsonResult<Map<String, Object>> jsonResult = new JsonResult<>();
