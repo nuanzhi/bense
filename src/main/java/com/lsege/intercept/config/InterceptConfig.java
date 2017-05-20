@@ -2,7 +2,10 @@ package com.lsege.intercept.config;
 
 import com.lsege.intercept.DomainIntercept;
 import com.lsege.intercept.RequestIntercept;
+import com.lsege.intercept.UrlIntercept;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -15,6 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class InterceptConfig extends WebMvcConfigurerAdapter {
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -23,9 +29,15 @@ public class InterceptConfig extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/**");
 
         /*安全认证拦截器*/
-        registry.addInterceptor(new RequestIntercept())
+        registry.addInterceptor(new RequestIntercept(redisTemplate))
                 .addPathPatterns("/**")
                 .excludePathPatterns("/toLogin");
+
+        /*操作权限拦截器*/
+        registry.addInterceptor(new UrlIntercept(redisTemplate))
+                .addPathPatterns("/**")
+                .excludePathPatterns("/toLogin")
+                .excludePathPatterns("/getRedisToken");
 
         super.addInterceptors(registry);
     }

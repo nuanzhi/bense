@@ -14,6 +14,7 @@ public class GsonUtil {
     private GsonUtil() {
 
     }
+
     //定义一个静态私有变量(不初始化，不使用final关键字，使用volatile保证了多线程访问时instance变量的可见性，避免了instance初始化时其他变量属性还没赋值完时，被另外线程调用)
     private static volatile Gson instance;
 
@@ -37,6 +38,12 @@ public class GsonUtil {
                                                      Class<T> type) {
         List<T> result = getIstance().fromJson(jsonData, new TypeToken<List<T>>() {
         }.getType());
+        return result;
+    }
+
+    public static <T> T parseJsonWithGson(String jsonData, Class<T> type) {
+        Gson gson = new Gson();
+        T result = gson.fromJson(jsonData, type);
         return result;
     }
 

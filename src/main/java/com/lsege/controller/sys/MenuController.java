@@ -1,5 +1,6 @@
 package com.lsege.controller.sys;
 
+import com.lsege.controller.BaseController;
 import com.lsege.entity.JsonResult;
 import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/menu")
-public class MenuController {
+public class MenuController extends BaseController{
 
     @Autowired
     private MenuService menuService;

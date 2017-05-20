@@ -5,6 +5,8 @@ import com.lsege.entity.Menu;
 import com.lsege.entity.Role;
 import com.lsege.entity.User;
 import com.lsege.service.LoginService;
+import com.lsege.util.CreateSecrteKey;
+import com.lsege.util.GsonUtil;
 import com.lsege.util.MenuUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,10 @@ import java.util.concurrent.TimeUnit;
  * 描述:
  */
 @RestController
-public class LoginController {
+public class LoginController extends BaseController{
 
     @Autowired
     LoginService loginService;
-
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     @GetMapping(value = "/getRedisToken")
     public JsonResult getRedisToken(String token) {
@@ -57,7 +56,7 @@ public class LoginController {
      * @return JsonResult
      */
     @PostMapping(value = "/toLogin")
-    public JsonResult toLogin(String account, String password) {
+    public JsonResult toLogin(String account, String password) throws Exception {
         boolean parameter = true;
         JsonResult<Map<String, Object>> jsonResult = new JsonResult<>();
         if (StringUtils.isEmpty(account)) {
@@ -89,6 +88,7 @@ public class LoginController {
                     hasMenu = MenuUtil.beautifyMenu(hasMenu);
                     Map<String, Object> map = new HashMap<>();
                     String token = UUID.randomUUID().toString().replaceAll("-", "");
+                    map.put("uId", user.getuId());
                     map.put("uName", user.getuName());
                     map.put("uAccount", user.getuAccount());
                     map.put("token", token);
@@ -99,6 +99,8 @@ public class LoginController {
                     /*存入redis缓存*/
                     ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
                     operations.set(token, map, 20, TimeUnit.MINUTES);
+                    /*移除uid*/
+                    map.remove("uId");
                 } else {
                     jsonResult.setSuccess(false);
                     jsonResult.setMessage("密码错误");

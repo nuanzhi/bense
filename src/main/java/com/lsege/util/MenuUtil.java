@@ -1,6 +1,7 @@
 package com.lsege.util;
 
 import com.lsege.entity.Menu;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,25 @@ public class MenuUtil {
             }
         }
         return objects;
+    }
+
+    public static List<String> getInterceptUrl(List<Menu> menus){
+        List<String> urls = new ArrayList<>();
+        for (Menu m:menus){
+            if(!StringUtils.isEmpty(m.getmInterceptUrl())){
+                if(!urls.contains(m.getmInterceptUrl())){
+                    urls.add(m.getmInterceptUrl());
+                }
+            }
+            for(Menu e:m.getSubMenu()){
+                if(!StringUtils.isEmpty(e.getmInterceptUrl())){
+                    if(!urls.contains(e.getmInterceptUrl())){
+                        urls.add(e.getmInterceptUrl());
+                    }
+                }
+            }
+        }
+        return urls;
     }
 
 }
