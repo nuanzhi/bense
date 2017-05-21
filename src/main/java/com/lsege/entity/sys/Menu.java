@@ -1,4 +1,4 @@
-package com.lsege.entity;
+package com.lsege.entity.sys;
 
 import java.util.ArrayList;
 import java.util.List;

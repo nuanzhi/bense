@@ -1,6 +1,6 @@
 package com.lsege.mapper;
 
-import com.lsege.entity.User;
+import com.lsege.entity.sys.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

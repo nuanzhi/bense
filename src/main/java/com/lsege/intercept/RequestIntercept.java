@@ -1,27 +1,18 @@
 package com.lsege.intercept;
 
-import com.google.gson.reflect.TypeToken;
-import com.lsege.entity.Menu;
-import com.lsege.util.CreateSecrteKey;
 import com.lsege.util.GsonUtil;
-import com.lsege.util.MenuUtil;
 import com.lsege.util.SignUtil;
-import org.omg.PortableServer.POAManagerPackage.State;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.session.SessionProperties;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.web.method.HandlerMethod;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.crypto.Cipher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Key;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,6 +35,10 @@ public class RequestIntercept implements HandlerInterceptor {
         Map<String, String> params = new HashMap<>();
         String psign = httpServletRequest.getParameter("sign");
         String token = httpServletRequest.getParameter("token");
+        if(StringUtils.isEmpty(token)){
+            json(httpServletResponse,"overdue","utf-8");
+            return false;
+        }
         Enumeration<String> paraNames = httpServletRequest.getParameterNames();
         for (Enumeration<String> e = paraNames; e.hasMoreElements(); ) {
             String thisName = e.nextElement();
@@ -57,7 +52,7 @@ public class RequestIntercept implements HandlerInterceptor {
         if(psign.equals(sign)){
             return true;
         }else{
-            httpServletResponse.setStatus(403);
+            json(httpServletResponse,"ValidationFails","utf-8");
             return false;
         }
     }
@@ -70,5 +65,20 @@ public class RequestIntercept implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
 
+    }
+
+    public static void json(HttpServletResponse response, Object data, String encoding){
+        //设置编码格式
+        response.setContentType("text/plain;charset=" + encoding);
+        response.setCharacterEncoding(encoding);
+
+        PrintWriter out = null;
+        try{
+            out = response.getWriter();
+            out.write(GsonUtil.getIstance().toJson(data));
+            out.flush();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }

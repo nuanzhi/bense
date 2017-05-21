@@ -3,5 +3,49 @@
 <mapper namespace="com.lsege.mapper.sys.UserMapper">
 
 
+    <resultMap type="User"  id="userMap">
+        <id column="u_id" property="uId" />
+        <result column="u_account" property="uAccount" />
+        <result column="u_password" property="uPassword" />
+        <result column="u_name" property="uName" />
+        <result column="create_time" property="createTime" />
+        <result column="u_status" property="uStatus" />
+        <result column="u_creator" property="uCreator" />
+        <collection property="roles" ofType="Role" resultMap="roleMap" />
+    </resultMap>
+
+    <resultMap type="Role" id="roleMap">
+        <id column="r_id" property="rId"/>
+        <result column="r_name" property="rName"/>
+    </resultMap>
+
+
+    <select id="getUsers" resultMap="userMap">
+        select u.*,r.* from user u
+        left join u_r_relate urr
+        on u.u_id = urr.u_id
+        left join role r
+        on urr.r_id = r.r_id
+    </select>
+
+    <select id="getRoleByUser" parameterType="Long" resultType="Role">
+        select r.* from u_r_relate urr
+        left join role r
+        on urr.r_id = r.r_id
+    </select>
+
+    <insert id="addUser" parameterType="User" keyProperty="uId">
+        INSERT INTO user (u_account, u_password, u_name, u_creator)
+        VALUES (#{uAccount},#{uPassword},#{uName},#{uCreator})
+    </insert>
+
+    <insert id="addUserRole" parameterType="List">
+        INSERT INTO u_r_relate (u_id, r_id)
+        VALUES
+        <foreach collection="list" index="index" item="item"
+                 separator=",">
+            (#{item.uId}, #{item.rId})
+        </foreach>
+    </insert>
 
 </mapper>

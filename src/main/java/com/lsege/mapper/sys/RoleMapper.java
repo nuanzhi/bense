@@ -1,8 +1,7 @@
 package com.lsege.mapper.sys;
 
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
-import com.lsege.entity.User;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
 import com.lsege.entity.vo.RMRelate;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

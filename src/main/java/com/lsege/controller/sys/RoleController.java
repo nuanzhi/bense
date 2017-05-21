@@ -2,9 +2,8 @@ package com.lsege.controller.sys;
 
 import com.google.gson.reflect.TypeToken;
 import com.lsege.entity.JsonResult;
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
-import com.lsege.entity.User;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
 import com.lsege.entity.vo.RMRelate;
 import com.lsege.service.sys.RoleService;
 import com.lsege.util.GsonUtil;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

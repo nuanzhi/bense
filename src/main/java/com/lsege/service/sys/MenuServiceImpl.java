@@ -1,11 +1,10 @@
 package com.lsege.service.sys;
 
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
 import com.lsege.mapper.sys.MenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

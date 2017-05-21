@@ -1,8 +1,7 @@
 package com.lsege.service.sys;
 
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
-import com.lsege.entity.User;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
 import com.lsege.entity.vo.RMRelate;
 import com.lsege.mapper.sys.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;

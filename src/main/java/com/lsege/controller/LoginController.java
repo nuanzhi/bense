@@ -1,16 +1,12 @@
 package com.lsege.controller;
 
 import com.lsege.entity.JsonResult;
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
-import com.lsege.entity.User;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
+import com.lsege.entity.sys.User;
 import com.lsege.service.LoginService;
-import com.lsege.util.CreateSecrteKey;
-import com.lsege.util.GsonUtil;
 import com.lsege.util.MenuUtil;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,11 +90,10 @@ public class LoginController extends BaseController{
                     map.put("token", token);
                     map.put("timestamp", System.currentTimeMillis());
                     map.put("hasMenu", hasMenu);
-                    map.put("expires", "20m");
                     jsonResult.setData(map);
                     /*存入redis缓存*/
                     ValueOperations<String, Map<String, Object>> operations = redisTemplate.opsForValue();
-                    operations.set(token, map, 20, TimeUnit.MINUTES);
+                    operations.set(token, map, 30, TimeUnit.MINUTES);
                     /*移除uid*/
                     map.remove("uId");
                 } else {

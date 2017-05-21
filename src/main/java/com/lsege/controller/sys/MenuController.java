@@ -2,20 +2,16 @@ package com.lsege.controller.sys;
 
 import com.lsege.controller.BaseController;
 import com.lsege.entity.JsonResult;
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
-import com.lsege.mapper.sys.MenuMapper;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
 import com.lsege.service.sys.MenuService;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.spring.web.json.Json;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

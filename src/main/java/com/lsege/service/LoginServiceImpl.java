@@ -1,9 +1,9 @@
 package com.lsege.service;
 
 
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
-import com.lsege.entity.User;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
+import com.lsege.entity.sys.User;
 import com.lsege.mapper.LoginMapper;
 import com.lsege.mapper.sys.MenuMapper;
 import com.lsege.mapper.sys.RoleMapper;

@@ -1,9 +1,8 @@
 package com.lsege.service;
 
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
-import com.lsege.entity.User;
-import org.springframework.stereotype.Service;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
+import com.lsege.entity.sys.User;
 
 import java.util.List;
 

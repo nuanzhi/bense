@@ -1,7 +1,7 @@
 package com.lsege.service.sys;
 
-import com.lsege.entity.Menu;
-import com.lsege.entity.Role;
+import com.lsege.entity.sys.Menu;
+import com.lsege.entity.sys.Role;
 
 import java.util.List;
 

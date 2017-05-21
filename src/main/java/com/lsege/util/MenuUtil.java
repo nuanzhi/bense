@@ -1,6 +1,6 @@
 package com.lsege.util;
 
-import com.lsege.entity.Menu;
+import com.lsege.entity.sys.Menu;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
