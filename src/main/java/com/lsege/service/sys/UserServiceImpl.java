@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,13 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public List<User> getUsers() {
-        return userMapper.getUsers();
+    public List<User> getUsers(Integer pageNum,Integer pageSize) {
+        return userMapper.getUsers(pageNum,pageSize);
+    }
+
+    @Override
+    public Long getUserTotal() {
+        return userMapper.getUserTotal();
     }
 
     @Override
@@ -32,12 +38,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void addUser(User user, List<Long> rIds) {
+    public User addUser(User user, List<Long> rIds) {
+        user.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        user.setuStatus((long) 0);
         userMapper.addUser(user);
         List<URRelate> urRelates = new ArrayList<>();
-        for (Long rId:rIds){
-            urRelates.add(new URRelate(user.getuId(),rId));
+        for (Long rId : rIds) {
+            urRelates.add(new URRelate(user.getuId(), rId));
         }
-        userMapper.addUserRole(urRelates);
+        if (urRelates.size() != 0) {
+            userMapper.addUserRole(urRelates);
+        }
+        return user;
+    }
+
+    @Override
+    public User editUser(User user) {
+        userMapper.editUser(user);
+        return user;
+    }
+
+    @Override
+    public List<Role> associatedRole(Long uId) {
+        return userMapper.associatedRole(uId);
+    }
+
+    @Override
+    @Transactional
+    public void associatedRoleUpdate(Long uId, List<URRelate> urRelates) {
+        userMapper.associatedRoleDel(uId);
+        if (urRelates.size() != 0)
+            userMapper.associatedRoleSave(urRelates);
     }
 }

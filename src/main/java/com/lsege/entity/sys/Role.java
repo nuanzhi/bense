@@ -11,6 +11,7 @@ import java.util.List;
 public class Role {
     private Long rId;
     private String rName;
+    private Long isHas;
 
     public Long getrId() {
         return rId;
@@ -26,5 +27,13 @@ public class Role {
 
     public void setrName(String rName) {
         this.rName = rName;
+    }
+
+    public Long getIsHas() {
+        return isHas;
+    }
+
+    public void setIsHas(Long isHas) {
+        this.isHas = isHas;
     }
 }

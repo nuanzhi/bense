@@ -4,6 +4,7 @@ import com.lsege.entity.sys.Role;
 import com.lsege.entity.sys.User;
 import com.lsege.entity.vo.URRelate;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,12 +17,22 @@ import java.util.List;
 public interface UserMapper {
 
 
-    List<User> getUsers();
+    List<User> getUsers(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+
+    Long getUserTotal();
 
     List<Role> getRoleByUser(Long uId);
 
     Long addUser(User user);
 
+    Long editUser(User user);
+
     Long addUserRole(List<URRelate> urRelates);
+
+    List<Role> associatedRole(Long uId);
+
+    Long associatedRoleDel(Long uId);
+
+    Long associatedRoleSave(List<URRelate> urRelates);
 
 }

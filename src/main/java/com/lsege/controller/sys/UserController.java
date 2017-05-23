@@ -1,10 +1,14 @@
 package com.lsege.controller.sys;
 
+import com.github.pagehelper.PageHelper;
 import com.google.gson.reflect.TypeToken;
 import com.lsege.controller.BaseController;
 import com.lsege.entity.JsonResult;
+import com.lsege.entity.Page;
 import com.lsege.entity.sys.Role;
 import com.lsege.entity.sys.User;
+import com.lsege.entity.vo.RMRelate;
+import com.lsege.entity.vo.URRelate;
 import com.lsege.service.sys.RoleService;
 import com.lsege.service.sys.UserService;
 import com.lsege.util.GsonUtil;
@@ -33,12 +37,15 @@ public class UserController extends BaseController {
     RoleService roleService;
 
     @GetMapping(value = "/getUsers")
-    public JsonResult getUsers() {
+    public JsonResult getUsers(Integer pageNum,Integer pageSize) {
         JsonResult json = new JsonResult();
-        List<User> users = userService.getUsers();
+        PageHelper.startPage(1,12);
+        List<User> users = userService.getUsers(pageNum,pageSize);
+        Long total = userService.getUserTotal();
         json.setSuccess(true);
         json.setMessage("获取成功");
-        json.setData(users);
+        //json.setData(users);
+        json.setData(new Page(users,total,pageSize,pageNum));
         return json;
     }
 
@@ -53,7 +60,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping(value = "/addUser")
-    public JsonResult addUser(String uAccount, String uName, String uPassword, String str, HttpServletRequest request) {
+    public JsonResult addUser(String uAccount, String uName, String uPassword, String str,HttpServletRequest request) {
         JsonResult json = new JsonResult();
 
         if (StringUtils.isEmpty(uAccount) || StringUtils.isEmpty(uName) || StringUtils.isEmpty(uPassword)) {
@@ -64,9 +71,57 @@ public class UserController extends BaseController {
             Long uId = redisUserInfo.get("uId") != null ? (Long) redisUserInfo.get("uId") : null;
             List<Long> roleIds = GsonUtil.getIstance().fromJson(str, new TypeToken<List<Long>>() {
             }.getType());
-            userService.addUser(new User(uAccount, uPassword, uName, uId), roleIds);
+            User u =userService.addUser(new User(uAccount, uPassword, uName, uId), roleIds);
+            u.setRoles(userService.getRoleByUser(u.getuId()));
             json.setSuccess(true);
             json.setMessage("添加成功");
+            json.setData(u);
+        }
+        return json;
+    }
+
+    @PostMapping(value = "/editUser")
+    public JsonResult editUser(User user){
+        JsonResult json = new JsonResult();
+        if(StringUtils.isEmpty(user.getuId())){
+            json.setSuccess(false);
+            json.setMessage("缺少参数");
+        }else{
+           User u = userService.editUser(user);
+            json.setSuccess(true);
+            json.setMessage("修改成功");
+            json.setData(u);
+        }
+        return json;
+    }
+
+    @GetMapping(value = "/associatedRole")
+    public JsonResult associatedRole(Long uId){
+        JsonResult json = new JsonResult();
+        if (StringUtils.isEmpty(uId)) {
+            json.setSuccess(false);
+            json.setMessage("缺少参数");
+        } else {
+            List<Role> rols = userService.associatedRole(uId);
+            json.setSuccess(true);
+            json.setMessage("查询成功");
+            json.setData(rols);
+        }
+        return json;
+    }
+
+
+    @PostMapping(value = "/associatedRoleUpdate")
+    public JsonResult associatedRoleUpdate(Long uId,String str){
+        JsonResult json = new JsonResult();
+        if(StringUtils.isEmpty(str) || StringUtils.isEmpty(uId)){
+            json.setMessage("缺少参数");
+            json.setSuccess(false);
+        }else{
+            List<URRelate> roleIds = GsonUtil.getIstance().fromJson(str,new TypeToken<List<URRelate>>(){}.getType());
+            userService.associatedRoleUpdate(uId,roleIds);
+            json.setMessage("关联成功");
+            json.setSuccess(true);
         }
         return json;
     }

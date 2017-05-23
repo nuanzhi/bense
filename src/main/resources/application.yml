@@ -21,3 +21,10 @@ mybatis:
     map-underscore-to-camel-case: true
     use-column-label: true
     use-generated-keys: true
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+

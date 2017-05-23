@@ -19,19 +19,23 @@
         <result column="r_name" property="rName"/>
     </resultMap>
 
-
     <select id="getUsers" resultMap="userMap">
         select u.*,r.* from user u
         left join u_r_relate urr
         on u.u_id = urr.u_id
         left join role r
-        on urr.r_id = r.r_id
+        on urr.r_id = r.r_id where 1=1 order by create_time desc
+    </select>
+
+    <select id="getUserTotal" resultType="Long">
+        select count(*) from user
     </select>
 
     <select id="getRoleByUser" parameterType="Long" resultType="Role">
         select r.* from u_r_relate urr
         left join role r
-        on urr.r_id = r.r_id
+        on urr.r_id = r.r_id where urr.u_id = #{uId}
+
     </select>
 
     <insert id="addUser" parameterType="User" keyProperty="uId">
@@ -39,9 +43,39 @@
         VALUES (#{uAccount},#{uPassword},#{uName},#{uCreator})
     </insert>
 
+    <update id="editUser" parameterType="User">
+        UPDATE user set
+        <if test="uPassword!=null and uPassword!=''">
+            u_account = #{uAccount}, u_password = #{uPassword},u_name = #{uName}
+        </if>
+        <if test="uPassword==null or uPassword==''">
+            u_account = #{uAccount}, u_name = #{uName}
+        </if>
+        where u_id = #{uId}
+    </update>
+
     <insert id="addUserRole" parameterType="List">
         INSERT INTO u_r_relate (u_id, r_id)
         VALUES
+        <foreach collection="list" index="index" item="item"
+                 separator=",">
+            (#{item.uId}, #{item.rId})
+        </foreach>
+    </insert>
+
+    <select id="associatedRole" parameterType="Long" resultType="Role">
+        select r.*,if(tmp.r_id is null,0,1) is_has from role r
+        left join (
+        select r_id from u_r_relate where u_id = #{uId}
+        ) tmp on tmp.r_id = r.r_id where 1=1 ORDER BY r_id
+    </select>
+
+    <delete id="associatedRoleDel" parameterType="Long">
+        delete from u_r_relate where u_id = #{uId}
+    </delete>
+
+    <insert id="associatedRoleSave" parameterType="List">
+        INSERT INTO u_r_relate (u_id, r_id) VALUES
         <foreach collection="list" index="index" item="item"
                  separator=",">
             (#{item.uId}, #{item.rId})
