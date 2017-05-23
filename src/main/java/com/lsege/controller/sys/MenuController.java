@@ -1,7 +1,9 @@
 package com.lsege.controller.sys;
 
+import com.github.pagehelper.PageHelper;
 import com.lsege.controller.BaseController;
 import com.lsege.entity.JsonResult;
+import com.lsege.entity.Page;
 import com.lsege.entity.sys.Menu;
 import com.lsege.entity.sys.Role;
 import com.lsege.service.sys.MenuService;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建人: 徐众垚
@@ -48,14 +52,20 @@ public class MenuController extends BaseController{
     }
 
     @GetMapping(value = "/getMenuChildById")
-    public JsonResult getMenuChildById(Long mId) {
+    public JsonResult getMenuChildById(Long mId,Integer pageNum,Integer pageSize) {
         JsonResult json = new JsonResult();
         if(StringUtils.isEmpty(mId)){
             json.setMessage("缺少参数");
             json.setSuccess(false);
         }else{
+            PageHelper.startPage(pageNum,pageSize);
             List<Menu> menus = menuService.getMenuChildById(mId);
-            json.setData(menus);
+            Long total = menuService.getMenuChildTotal(mId);
+            List<Menu> topmenus = menuService.getTopMenuList();
+            Map<String,Object> maps = new HashMap<>();
+            maps.put("page",new Page(menus,total,pageSize,pageNum));
+            maps.put("topMenus",topmenus);
+            json.setData(maps);
             json.setSuccess(true);
             json.setMessage("获取成功");
         }

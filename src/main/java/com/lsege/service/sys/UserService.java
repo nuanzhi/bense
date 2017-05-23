@@ -19,6 +19,8 @@ public interface UserService {
 
     User addUser(User user,List<Long> rIds);
 
+    void removeUser(Long uId);
+
     User editUser(User user);
 
     List<Role> associatedRole(Long uId);

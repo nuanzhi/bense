@@ -14,6 +14,9 @@ public class Page<T> implements Serializable{
     private Integer pageSize;
     private Integer pageNumber;
 
+    public Page() {
+    }
+
     public Page(List<T> list, Long total, Integer pageSize, Integer pageNumber) {
         this.list = list;
         this.total = total;

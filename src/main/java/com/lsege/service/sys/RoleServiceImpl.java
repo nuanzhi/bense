@@ -26,6 +26,11 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
+    public Long getRoleTotal() {
+        return roleMapper.getRoleTotal();
+    }
+
+    @Override
     public Long addRole(Role role) {
         return roleMapper.addRole(role);
     }

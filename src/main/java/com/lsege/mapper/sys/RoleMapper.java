@@ -27,6 +27,8 @@ public interface RoleMapper {
 
     List<Role> getRoleList();
 
+    Long getRoleTotal();
+
     Long addRole(Role role);
 
     Long removeRole(Long rId);

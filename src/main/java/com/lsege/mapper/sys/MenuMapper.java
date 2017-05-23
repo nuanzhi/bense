@@ -35,6 +35,8 @@ public interface MenuMapper {
 
     List<Menu> getMenuChildByIdNotSelf(Long mId);
 
+    Long getMenuChildTotal(Long mId);
+
     Long addMenu(Menu menu);
 
     Long removeMenu(Long mId);

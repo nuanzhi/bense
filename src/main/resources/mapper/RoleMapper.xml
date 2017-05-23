@@ -15,6 +15,10 @@
         select * from role
     </select>
 
+    <select id="getRoleTotal" resultType="Long">
+        select count(*) from role
+    </select>
+
     <insert id="addRole" parameterType="Role" keyProperty="rId">
         insert into role (r_name) values (#{rName})
     </insert>

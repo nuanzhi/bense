@@ -1,7 +1,9 @@
 package com.lsege.controller.sys;
 
+import com.github.pagehelper.PageHelper;
 import com.google.gson.reflect.TypeToken;
 import com.lsege.entity.JsonResult;
+import com.lsege.entity.Page;
 import com.lsege.entity.sys.Menu;
 import com.lsege.entity.sys.Role;
 import com.lsege.entity.vo.RMRelate;
@@ -30,10 +32,12 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping(value = "/getRoleList")
-    public JsonResult getRoleList(){
+    public JsonResult getRoleList(Integer pageNum,Integer pageSize){
         JsonResult json = new JsonResult();
+        PageHelper.startPage(pageNum,pageSize);
         List<Role> roles = roleService.getRoleList();
-        json.setData(roles);
+        Long total = roleService.getRoleTotal();
+        json.setData(new Page(roles,total,pageSize,pageNum));
         json.setSuccess(true);
         json.setMessage("获取成功");
         return json;

@@ -1,6 +1,7 @@
 package com.lsege.controller.sys;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.reflect.TypeToken;
 import com.lsege.controller.BaseController;
 import com.lsege.entity.JsonResult;
@@ -39,12 +40,10 @@ public class UserController extends BaseController {
     @GetMapping(value = "/getUsers")
     public JsonResult getUsers(Integer pageNum,Integer pageSize) {
         JsonResult json = new JsonResult();
-        PageHelper.startPage(1,12);
         List<User> users = userService.getUsers(pageNum,pageSize);
         Long total = userService.getUserTotal();
         json.setSuccess(true);
         json.setMessage("获取成功");
-        //json.setData(users);
         json.setData(new Page(users,total,pageSize,pageNum));
         return json;
     }
@@ -76,6 +75,21 @@ public class UserController extends BaseController {
             json.setSuccess(true);
             json.setMessage("添加成功");
             json.setData(u);
+        }
+        return json;
+    }
+
+    @PostMapping(value = "/removeUser")
+    public JsonResult removeUser(Long uId){
+        JsonResult json = new JsonResult();
+
+        if (StringUtils.isEmpty(uId)) {
+            json.setSuccess(false);
+            json.setMessage("缺少参数");
+        } else {
+            userService.removeUser(uId);
+            json.setSuccess(true);
+            json.setMessage("删除成功");
         }
         return json;
     }

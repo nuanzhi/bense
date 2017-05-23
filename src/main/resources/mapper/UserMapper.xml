@@ -20,11 +20,13 @@
     </resultMap>
 
     <select id="getUsers" resultMap="userMap">
-        select u.*,r.* from user u
+        select u.*,r.* from (
+          select * from user where 1=1 order by create_time desc limit #{startCount},#{pageSize}
+        ) u
         left join u_r_relate urr
         on u.u_id = urr.u_id
         left join role r
-        on urr.r_id = r.r_id where 1=1 order by create_time desc
+        on urr.r_id = r.r_id;
     </select>
 
     <select id="getUserTotal" resultType="Long">
@@ -81,5 +83,13 @@
             (#{item.uId}, #{item.rId})
         </foreach>
     </insert>
+
+    <delete id="removeUser" parameterType="Long">
+        delete from user where u_id = #{uId}
+    </delete>
+
+    <delete id="removeURRelate" parameterType="Long">
+        delete from u_r_relate where u_id = #{uId}
+    </delete>
 
 </mapper>

@@ -50,6 +50,12 @@
         order by m_show_id
     </select>
 
+    <select id="getMenuChildTotal" parameterType="Long" resultType="Long">
+        SELECT count(*)
+        FROM menu where m_p_id = #{mId} and m_id != 1
+        order by m_show_id
+    </select>
+
     <select id="getMenuChildByIdNotSelf" parameterType="Long" resultType="Menu">
         SELECT *
         FROM menu where  m_p_id = #{mId} and m_id != 1

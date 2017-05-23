@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers(Integer pageNum,Integer pageSize) {
-        return userMapper.getUsers(pageNum,pageSize);
+        Integer startCount = (pageNum-1)*pageSize;
+        return userMapper.getUsers(startCount,pageSize);
     }
 
     @Override
@@ -50,6 +51,13 @@ public class UserServiceImpl implements UserService {
             userMapper.addUserRole(urRelates);
         }
         return user;
+    }
+
+    @Override
+    @Transactional
+    public void removeUser(Long uId) {
+        userMapper.removeURRelate(uId);
+        userMapper.removeUser(uId);
     }
 
     @Override

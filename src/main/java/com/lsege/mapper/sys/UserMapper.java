@@ -17,7 +17,7 @@ import java.util.List;
 public interface UserMapper {
 
 
-    List<User> getUsers(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+    List<User> getUsers(@Param("startCount") Integer startCount, @Param("pageSize") Integer pageSize);
 
     Long getUserTotal();
 
@@ -28,6 +28,10 @@ public interface UserMapper {
     Long editUser(User user);
 
     Long addUserRole(List<URRelate> urRelates);
+
+    Long removeUser(Long uId);
+
+    Long removeURRelate(Long uId);
 
     List<Role> associatedRole(Long uId);
 

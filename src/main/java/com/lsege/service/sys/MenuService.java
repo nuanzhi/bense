@@ -21,6 +21,8 @@ public interface MenuService {
 
     List<Menu> getMenuChildById(Long mId);
 
+    Long getMenuChildTotal(Long mId);
+
     List<Menu> getMenuChildByIdNotSelf(Long mId);
 
     Long addMenu(Menu menu);
