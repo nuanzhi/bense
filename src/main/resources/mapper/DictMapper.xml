@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsege.mapper.sys.DictMapper">
+    <select id="selectDictList" resultType="Dictionary">
+        select * from Dictionary ORDER BY dict_value
+    </select>
+    <select id="getDictChild" resultType="DictionaryData" parameterType="Long">
+        select * from dictionary_data where dict_value=#{dictValue}
+
+    </select>
+</mapper>
