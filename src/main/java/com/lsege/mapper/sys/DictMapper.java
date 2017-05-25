@@ -22,5 +22,6 @@ public interface DictMapper {
     Long getDictChildTotal(Long dictValue);
     Long getDictTotal();
     Long updateDictStates(Long id);
+    Long findMax();
 
 }

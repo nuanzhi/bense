@@ -30,4 +30,7 @@
     <update id="updateDictStates" parameterType="Long">
         UPDATE  dictionary_data set states=1 where id=#{id}
     </update>
+    <select id="findMax" resultType="Long">
+        select MAX(dict_value)  from dictionary
+    </select>
 </mapper>

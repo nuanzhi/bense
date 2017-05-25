@@ -94,9 +94,10 @@ public class DictController extends BaseController {
         JsonResult json=new JsonResult();
 
         if((dictValue+"").equals("0")){
+            Long maxValue=dictService.findMax()+1;
             Dictionary dictionary=new Dictionary();
             dictionary.setDictName(dictDataName);
-            dictionary.setDictValue(Long.valueOf(dictDataValue));
+            dictionary.setDictValue(maxValue);
             dictService.insertTopDict(dictionary);
             json.setData(dictionary);
             json.setSuccess(true);
