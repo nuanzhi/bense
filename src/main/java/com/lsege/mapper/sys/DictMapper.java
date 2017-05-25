@@ -3,8 +3,7 @@ package com.lsege.mapper.sys;
 import com.lsege.entity.sys.DictionaryData;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-
-import java.util.Dictionary;
+import com.lsege.entity.sys.Dictionary;
 import java.util.List;
 
 /**
@@ -16,5 +15,11 @@ import java.util.List;
 public interface DictMapper {
     List<Dictionary> selectDictList();
     List<DictionaryData> getDictChild(Long dictValue);
+    Long insertDict(DictionaryData dictionaryData);
+    Long insertTopDict(Dictionary dictionary);
+    Long deldict(Long id);
+    Long delTopDict(Long dictValue);
+    Long getDictChildTotal(Long dictValue);
+    Long getDictTotal();
 
 }

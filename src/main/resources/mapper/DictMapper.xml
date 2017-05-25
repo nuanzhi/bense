@@ -6,6 +6,25 @@
     </select>
     <select id="getDictChild" resultType="DictionaryData" parameterType="Long">
         select * from dictionary_data where dict_value=#{dictValue}
-
     </select>
+    <select id="getDictChildTotal" parameterType="Long" resultType="Long">
+        SELECT count(*)
+        FROM dictionary_data where dict_value=#{dictValue}
+    </select>
+    <select id="getDictTotal" parameterType="Long" resultType="Long">
+        SELECT count(*)
+        FROM dictionary where dict_value!=0
+    </select>
+    <insert id="insertDict" parameterType="DictionaryData">
+         INSERT  into  dictionary_data(dict_value,dict_data_name,dict_data_value,isfixed)VALUES(#{dictValue},#{dictDataName},#{dictDataValue},#{isFixed})
+    </insert>
+    <insert id="insertTopDict" parameterType="Dictionary">
+        INSERT  into Dictionary(dict_value,dict_name)VALUES(#{DictValue},#{DictName})
+    </insert>
+    <delete id="deldict" parameterType="Long">
+        delete  from dictionary_data where id=#{id}
+    </delete>
+    <delete id="delTopDict" parameterType="Long">
+        DELETE  from Dictionary where dict_value=#{dictValue}
+    </delete>
 </mapper>

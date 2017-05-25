@@ -8,7 +8,16 @@ public class DictionaryData {
     private Long dictValue;
     private String dictDataName;
     private String dictDataValue;
-    private Long  isFixed;
+
+    private Integer  isFixed;
+    public Integer getIsFixed() {
+        return isFixed;
+    }
+
+    public void setIsFixed(Integer isFixed) {
+        this.isFixed = isFixed;
+    }
+
 
     public Long getId() {
         return id;
@@ -42,13 +51,6 @@ public class DictionaryData {
         this.dictDataValue = dictDataValue;
     }
 
-    public Long getIsFixed() {
-        return isFixed;
-    }
-
-    public void setIsFixed(Long isFixed) {
-        this.isFixed = isFixed;
-    }
 
 
 }
