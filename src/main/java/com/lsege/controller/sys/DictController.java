@@ -132,4 +132,24 @@ public class DictController extends BaseController {
         json.setMessage("删除成功");
         return json;
     }
+    @PostMapping(value ="/editMenu")
+    public JsonResult editMenu(Long id,Long dictValue,String dictDataName,String dictDataValue){
+        JsonResult json=new JsonResult();
+        try{
+            dictService.updateDictStates(id);
+            DictionaryData dictionaryData=new DictionaryData();
+            dictionaryData.setDictValue(dictValue);
+            dictionaryData.setDictDataName(dictDataName);
+            dictionaryData.setDictDataValue(dictDataValue);
+            dictionaryData.setIsFixed(0);
+            dictService.insertDict(dictionaryData);
+            json.setSuccess(true);
+            json.setMessage("编辑成功");
+        }catch (Exception e){
+            json.setSuccess(false);
+            json.setMessage("编辑失败");
+        }
+
+        return json;
+    }
 }

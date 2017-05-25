@@ -5,18 +5,18 @@
         select * from Dictionary ORDER BY dict_value
     </select>
     <select id="getDictChild" resultType="DictionaryData" parameterType="Long">
-        select * from dictionary_data where dict_value=#{dictValue}
+        select * from dictionary_data where dict_value=#{dictValue} AND  states=0
     </select>
     <select id="getDictChildTotal" parameterType="Long" resultType="Long">
         SELECT count(*)
-        FROM dictionary_data where dict_value=#{dictValue}
+        FROM dictionary_data where dict_value=#{dictValue} AND  states=0
     </select>
     <select id="getDictTotal" parameterType="Long" resultType="Long">
         SELECT count(*)
         FROM dictionary where dict_value!=0
     </select>
     <insert id="insertDict" parameterType="DictionaryData">
-         INSERT  into  dictionary_data(dict_value,dict_data_name,dict_data_value,isfixed)VALUES(#{dictValue},#{dictDataName},#{dictDataValue},#{isFixed})
+         INSERT  into  dictionary_data(dict_value,dict_data_name,dict_data_value,isfixed,states)VALUES(#{dictValue},#{dictDataName},#{dictDataValue},#{isFixed},0)
     </insert>
     <insert id="insertTopDict" parameterType="Dictionary">
         INSERT  into Dictionary(dict_value,dict_name)VALUES(#{DictValue},#{DictName})
@@ -27,4 +27,7 @@
     <delete id="delTopDict" parameterType="Long">
         DELETE  from Dictionary where dict_value=#{dictValue}
     </delete>
+    <update id="updateDictStates" parameterType="Long">
+        UPDATE  dictionary_data set states=1 where id=#{id}
+    </update>
 </mapper>

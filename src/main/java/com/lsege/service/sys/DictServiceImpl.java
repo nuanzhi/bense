@@ -55,4 +55,9 @@ public class DictServiceImpl implements DictService{
     public Long getDictTotal() {
         return dictMapper.getDictTotal();
     }
+
+    @Override
+    public Long updateDictStates(Long id) {
+        return dictMapper.updateDictStates(id);
+    }
 }

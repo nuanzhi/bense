@@ -17,4 +17,5 @@ public interface DictService {
     Long delTopDict(Long dictValue);
     Long getDictChildTotal(Long dictValue);
     Long getDictTotal();
+    Long updateDictStates(Long id);
 }
