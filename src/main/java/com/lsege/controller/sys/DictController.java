@@ -45,13 +45,13 @@ public class DictController extends BaseController {
                 List<Dictionary> topmenus=dictService.selectDictList();
                 List<DictionaryData> dictionaryDatas=new ArrayList<>();
                 Long total=dictService.getDictTotal();
-                Long sid=1l;
+                int sid=1;
                 for(int i=0;i<topmenus.size();i++){
                     if(topmenus.get(i).getDictValue()!=0){
                         DictionaryData dictionaryData=new DictionaryData();
                         dictionaryData.setDictDataName(topmenus.get(i).getDictName());
                         dictionaryData.setDictDataValue(topmenus.get(i).getDictValue()+"");
-                        dictionaryData.setId(sid);
+                        dictionaryData.setXuhao(sid);
                         dictionaryDatas.add(dictionaryData);
                         sid++;
                     }
@@ -73,6 +73,11 @@ public class DictController extends BaseController {
             try{
                 PageHelper.startPage(pageNum,pageSize);
                 List<DictionaryData> dictionaryDatas=dictService.getDictChild(dictValue);
+               int xuhao=1;
+                for(int i=0;i<dictionaryDatas.size();i++){
+                    dictionaryDatas.get(i).setXuhao(xuhao);
+                    xuhao++;
+                }
                 List<Dictionary> topmenus=dictService.selectDictList();
                 Long total=dictService.getDictChildTotal(dictValue);
                 Map<String,Object> maps = new HashMap<>();
@@ -94,9 +99,10 @@ public class DictController extends BaseController {
         JsonResult json=new JsonResult();
 
         if((dictValue+"").equals("0")){
+            Long maxValue=dictService.findMax()+1;
             Dictionary dictionary=new Dictionary();
             dictionary.setDictName(dictDataName);
-            dictionary.setDictValue(Long.valueOf(dictDataValue));
+            dictionary.setDictValue(maxValue);
             dictService.insertTopDict(dictionary);
             json.setData(dictionary);
             json.setSuccess(true);
@@ -125,7 +131,7 @@ public class DictController extends BaseController {
         return json;
     }
     @PostMapping(value="/delTopDict")
-    public JsonResult delTopDict(Long id,Long delTopDict){
+    public JsonResult delTopDict(Long delTopDict){
         JsonResult json=new JsonResult();
         dictService.delTopDict(delTopDict);
         json.setSuccess(true);

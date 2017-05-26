@@ -60,4 +60,9 @@ public class DictServiceImpl implements DictService{
     public Long updateDictStates(Long id) {
         return dictMapper.updateDictStates(id);
     }
+
+    @Override
+    public Long findMax() {
+        return dictMapper.findMax();
+    }
 }
