@@ -69,7 +69,7 @@ public class LoginController extends BaseController{
             User user = loginService.toLogin(account);
             if (user == null) {
                 jsonResult.setSuccess(false);
-                jsonResult.setMessage("未找到该用户");
+                jsonResult.setMessage("用户名或密码错误");
             } else {
                 if (user.getuPassword().equals(password)) {
                     jsonResult.setSuccess(true);
@@ -98,7 +98,7 @@ public class LoginController extends BaseController{
                     map.remove("uId");
                 } else {
                     jsonResult.setSuccess(false);
-                    jsonResult.setMessage("密码错误");
+                    jsonResult.setMessage("用户名或密码错误");
                 }
             }
         }

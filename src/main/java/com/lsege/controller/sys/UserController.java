@@ -39,12 +39,12 @@ public class UserController extends BaseController {
 
     @GetMapping(value = "/getUsers")
     public JsonResult getUsers(Integer pageNum,Integer pageSize) {
-        JsonResult json = new JsonResult();
+        JsonResult<Page> json = new JsonResult<>();
         List<User> users = userService.getUsers(pageNum,pageSize);
         Long total = userService.getUserTotal();
         json.setSuccess(true);
         json.setMessage("获取成功");
-        json.setData(new Page(users,total,pageSize,pageNum));
+        json.setData(new Page<User>(users,total,pageSize,pageNum));
         return json;
     }
 

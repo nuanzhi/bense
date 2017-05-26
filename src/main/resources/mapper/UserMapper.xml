@@ -26,7 +26,7 @@
         left join u_r_relate urr
         on u.u_id = urr.u_id
         left join role r
-        on urr.r_id = r.r_id;
+        on urr.r_id = r.r_id where 1=1 ORDER BY u.create_time DESC
     </select>
 
     <select id="getUserTotal" resultType="Long">

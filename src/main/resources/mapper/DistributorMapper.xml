@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsege.mapper.servicep.DistributorMapper">
+
+    <insert id="addDistributorDistributor" parameterType="Distributor" keyProperty="distributorId">
+        INSERT INTO distributor (distributor_login_account,
+         distributor_login_password,
+          company_name,
+          legalperson_name,
+          company_fixed_phone,
+           legalperson_phone,
+            contact_name, contact_phone,
+             creator) VALUES (#{distributorLoginAccount},
+             #{distributorLoginPassword},
+             #{companyName},
+             #{legalpersonName},
+             #{companyFixedPhone},
+             #{legalpersonPhone},
+             #{contactName},
+             #{contactPhone},
+             #{creator}
+             )
+    </insert>
+
+ <select id="getDisList" resultType="Distributor">
+  select * from distributor ORDER BY create_time DESC
+ </select>
+
+ <select id="getDisTotal" resultType="Long">
+  select count(*) from distributor
+ </select>
+
+
+</mapper>
